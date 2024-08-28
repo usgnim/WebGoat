@@ -30,10 +30,8 @@ class AccessControlIntegrationTest extends IntegrationTest {
         .statusCode(HttpStatus.SC_FORBIDDEN);
 
     // create user
-    var userTemplate =
-        """
-                {"username":"%s","password":"%s","admin": "true"}
-                """;
+    var userTemplate = "{\"username\":\"%s\",\"password\":\"%s\",\"admin\": \"true\"}";
+
     RestAssured.given()
         .when()
         .relaxedHTTPSValidation()
