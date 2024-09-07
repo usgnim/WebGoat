@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo yum install -y java-17-amazon-corretto-devel
 BUILD_JAR=$(ls /home/ubuntu/build/*.jar)
 JAR_NAME=$(basename $BUILD_JAR)
 echo "> build 파일명: $JAR_NAME" >> /home/ubuntu/deploy.log
