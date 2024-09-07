@@ -1,12 +1,12 @@
 version: 0.0  # CodeDeploy 버전
 os: linux
 files:
-  - source: webgoat-2023.9-SNAPSHOT.jar  # buildspec.yml에서 생성된 아티팩트 경로에 맞춰 수정
+  - source: / # buildspec.yml에서 생성된 아티팩트 경로에 맞춰 수정
     destination: /home/ubuntu/build/  # 파일을 복사할 대상 경로
     overwrite: yes
 
 permissions:  # 파일 권한 설정
-  - object: /home/ubuntu/build/webgoat-2023.9-SNAPSHOT.jar  # 복사된 파일에 대한 권한 설정
+  - object: /  # 복사된 파일에 대한 권한 설정
     owner: ubuntu
     group: ubuntu
     mode: 755
