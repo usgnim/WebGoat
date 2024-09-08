@@ -3,13 +3,14 @@ os: linux
 files:
   - source: / # buildspec.yml에서 생성된 아티팩트 경로에 맞춰 수정
     destination: /home/ubuntu/build/  # 파일을 복사할 대상 경로
-    overwrite: yes
+    # overwrite: yes
 
 permissions:  # 파일 권한 설정
   - object: /  # 복사된 파일에 대한 권한 설정
+    pattern: "**"
     owner: ubuntu
     group: ubuntu
-    mode: 755
+    # mode: 755
     
 hooks:
   AfterInstall:  # 배포를 완료한 후 실행되는 스크립트
