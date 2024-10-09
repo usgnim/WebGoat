@@ -5,35 +5,6 @@ phases:
     runtime-versions:
       java: corretto17  
 
-    commands:
-      # 시스템 패키지 업데이트 및 업그레이드
-      - sudo apt-get update -y
-      - sudo apt-get upgrade -y
-
-      # 필요한 패키지 설치 (wget, curl, vim, python3)
-      - sudo apt-get install -y wget curl vim python3
-
-      # AWS Corretto (Java 11) 다운로드 및 설치
-      - sudo curl -L https://corretto.aws/downloads/latest/amazon-corretto-11-x64-linux-jdk.deb -o jdk11.deb
-      - sudo dpkg -i jdk11.deb
-
-      # Java 11을 기본 JDK로 설정
-      - sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-11-amazon-corretto/bin/java 1
-      - sudo update-alternatives --set java /usr/lib/jvm/java-11-amazon-corretto/bin/java
-      - java --version
-
-      # 다운로드한 설치 키트 제거
-      - sudo rm -rf jdk11.deb
-
-      # 인증서 관리 패키지 설치
-      - sudo apt-get install -y ca-certificates
-
-      # Python 패키지 관리 도구 pip 설치
-      - sudo apt-get install -y python3-pip
-
-      # AWS SDK for Python(boto3) 및 OWASP ZAP의 Python 인터페이스 설치
-      - sudo pip3 install boto3 zaproxy
-
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase...
@@ -44,34 +15,13 @@ phases:
       - pwd && ls && whoami
       - ./mvnw clean install -D skipTests
 
-      # OWASP ZAP 다운로드 및 압축 해제
-      - sudo wget https://github.com/zaproxy/zaproxy/releases/download/v2.15.0/ZAP_2.15.0_Linux.tar.gz
-      - sudo tar -xvf ZAP_2.15.0_Linux.tar.gz
-      - cd ZAP_2.15.0
-
-      # ZAP를 명령줄에서 직접 실행하여 대상 웹사이트(WebGoat)에 대해 빠른 스캔 수행 및 리포트 저장
-      - sudo ./zap.sh -cmd -quickurl http://BlueGreen-jw-87223296.ap-northeast-2.elb.amazonaws.com/WebGoat -quickprogress -quickout ../zap_report.html
-
-      # 리포트 파일이 생성되었는지 확인
-      - ls -l ../zap_report.html
-
 
   post_build:
     commands:
       - echo Build completed on `date`
-      # ZAP 인증서를 덤프하여 파일로 생성 (HTTPS 테스트 필요시)
-      - sudo ./zap.sh -cmd -certfulldump zap.crt
-
-      # 인증서를 OpenSSL 인증서 디렉터리에 복사
-      - sudo cp zap.crt /usr/local/share/ca-certificates/
-      - sudo update-ca-certificates
-
-      # 리포트 파일 내용 확인
-      - cat ../zap_report.html
 
 artifacts:
   files:
     - target/webgoat-2023.9-SNAPSHOT.jar
     - appspec.yml
     - start.sh
-    - zap_report.html
