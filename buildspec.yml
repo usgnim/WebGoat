@@ -6,7 +6,7 @@ phases:
       java: corretto17
     commands:
       - echo Installing CycloneDX CLI...
-      - npm install -g @cyclonedx/bom  # CycloneDX Generator 설치
+      - npm install -g @cyclonedx/bom --force # CycloneDX Generator 설치
 
   pre_build:
     commands:
