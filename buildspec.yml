@@ -3,11 +3,15 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto17  
+      java: corretto17
+    commands:
+      - echo Installing CycloneDX CLI...
+      - npm install -g @cyclonedx/bom  # CycloneDX Generator 설치
 
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase...
+      
 
   build:
     commands:
@@ -19,9 +23,12 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+      - echo Generating SBOM with CycloneDX...
+      - cyclonedx-bom -o sbom.xml  # SBOM 파일 생성
 
 artifacts:
   files:
     - target/webgoat-2023.9-SNAPSHOT.jar
+    - sbom.xml
     - appspec.yml
     - start.sh
