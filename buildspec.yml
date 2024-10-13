@@ -29,6 +29,6 @@ phases:
 artifacts:
   files:
     - target/webgoat-2023.9-SNAPSHOT.jar
-    - sbom.xml
+    - app-bom-cdxgen.json
     - appspec.yml
     - start.sh
