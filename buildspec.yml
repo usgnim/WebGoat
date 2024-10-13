@@ -6,7 +6,7 @@ phases:
       java: corretto17
     commands:
       - echo Installing CycloneDX CLI...
-      - npm install -g @cyclonedx/bom --legacy-peer-deps # CycloneDX Generator 설치
+      - npm install -g @cyclonedx/cdxgen # CycloneDX Generator 설치
 
   pre_build:
     commands:
@@ -24,7 +24,7 @@ phases:
     commands:
       - echo Build completed on `date`
       - echo Generating SBOM with CycloneDX...
-      - cyclonedx-bom -o sbom.xml  # SBOM 파일 생성
+      - cdxgen -t java -o app-bom-cdxgen.json  # SBOM 파일 생성
 
 artifacts:
   files:
